@@ -37,11 +37,12 @@ def mimic(message):
     print(message.text)
     split_message = message.text.split(' ')
 
-    if len(split_message)!=3:
+    if len(split_message)<2:
         bot.reply_to(message, "Incorrect syntax.\nHelp: /imite <user> <theme>")
+        return
 
     user = split_message[1]
-    theme = split_message[2]
+    theme = split_message[2:]
 
     print(f"Queried user: {user}, theme: {theme}")
     telegram_username = RETRIEVER.get_telegram_username(user=user)
