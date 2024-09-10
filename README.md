@@ -84,7 +84,7 @@ python dumb_telegram_bot/bot.py
 
 # How it works
 
-[architecture](/docs/img/dumb_bot.png)
+![architecture](/docs/img/architecture.png)
 
 
 ## Known limitations
