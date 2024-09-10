@@ -10,9 +10,8 @@ import json
 import pandas as pd
 
 
-def read_and_select_columns(path: str): 
-    """
-    """
+def read_and_select_columns(path: str):
+    """ """
     with open(path, "r") as f:
         data_dict = json.load(f)
 
@@ -22,9 +21,8 @@ def read_and_select_columns(path: str):
 
 
 def process(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    """
-    df = df[df["text"]!=""].copy()
+    """ """
+    df = df[df["text"] != ""].copy()
     df["raw_text"] = df["text_entities"].apply(lambda x: dict(x[0])["text"])
 
     return df
@@ -36,12 +34,12 @@ class Database(ABC):
     def get_table() -> pd.DataFrame:
         """Abstract method to read a whole table. Returns a pandas dataframe"""
         raise NotImplementedError
-    
+
     @abstractmethod
     def get_sample_from_user(self, n_samples: int, username: str) -> pd.DataFrame:
         """Samples n rows from the data"""
         raise NotImplementedError
-    
+
     @abstractmethod
     def get_unique_users(self) -> list:
         """Samples n rows from the data"""
@@ -56,19 +54,18 @@ class LocalPandasDatabase(Database):
 
     def get_table(self) -> pd.DataFrame:
         return self.df
-    
+
     def get_sample_from_user(self, n_samples: int, username: str) -> list:
         """
         Samples n rows from the data
         """
 
-        df_subset = self.df[self.df["from"]==username].sample(n=n_samples).copy()
+        df_subset = self.df[self.df["from"] == username].sample(n=n_samples).copy()
 
         return df_subset["raw_text"].to_list()
-    
+
     def get_unique_users(self) -> list:
         """
         Returns a list of unique users
         """
         return self.df["from"].unique().tolist()
-    

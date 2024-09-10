@@ -14,11 +14,10 @@ logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger()
 
 
-
 def create_bot_routes(telegram_json_history: str, n_samples: int = 500):
-    
+
     bot = telebot.TeleBot(os.environ["TELEGRAM_API_TOKEN"])
-    
+
     DATABASE = LocalPandasDatabase(path=telegram_json_history)
     TELEGRAM_USER_LIST = DATABASE.get_unique_users()
 
@@ -29,18 +28,18 @@ def create_bot_routes(telegram_json_history: str, n_samples: int = 500):
     def mimic(message):
         """
         Syntax: /imite <user> <theme>
-        
+
         :param message: User message
         :return: None
         """
-        
+
         LOGGER.debug(message.text)
 
-        message.text.split(' ')
+        message.text.split(" ")
         print(message.text)
-        split_message = message.text.split(' ')
+        split_message = message.text.split(" ")
 
-        if len(split_message)<2:
+        if len(split_message) < 2:
             bot.reply_to(message, "Incorrect syntax.\nHelp: /imite <user> <theme>")
             return
 
@@ -50,9 +49,13 @@ def create_bot_routes(telegram_json_history: str, n_samples: int = 500):
         print(f"Queried user: {user}, theme: {theme}")
         telegram_username = RETRIEVER.get_telegram_username(user=user)
         print(f"Found username: {telegram_username}")
-        text_samples = DATABASE.get_sample_from_user(n_samples=n_samples, username=telegram_username)
-        
-        answer = CHATBOT.get_message(text_samples=text_samples, person_to_mimic=telegram_username, theme=theme)
+        text_samples = DATABASE.get_sample_from_user(
+            n_samples=n_samples, username=telegram_username
+        )
+
+        answer = CHATBOT.get_message(
+            text_samples=text_samples, person_to_mimic=telegram_username, theme=theme
+        )
 
         bot.reply_to(message=message, text=answer)
 

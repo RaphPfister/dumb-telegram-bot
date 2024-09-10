@@ -1,6 +1,7 @@
 """
 Impements a llm chain that mimics a user on a given theme
 """
+
 from typing import List
 
 from langchain_openai import ChatOpenAI
@@ -24,12 +25,17 @@ class MimickingChatBot:
     """
 
     def __init__(self):
-        
-        prompt_mimic = ChatPromptTemplate.from_messages([
-            ("system", SYSTEM_PROMPT),
-            ("system", "Voici des examples de texte de la personne à imiter: {text_samples}"),
-            ("user", "Username: {person_to_mimic}, Thématique: {theme}")
-        ])
+
+        prompt_mimic = ChatPromptTemplate.from_messages(
+            [
+                ("system", SYSTEM_PROMPT),
+                (
+                    "system",
+                    "Voici des examples de texte de la personne à imiter: {text_samples}",
+                ),
+                ("user", "Username: {person_to_mimic}, Thématique: {theme}"),
+            ]
+        )
 
         llm = ChatOpenAI(model="gpt-4o")
 
@@ -37,9 +43,14 @@ class MimickingChatBot:
 
         self.mimicking_chain = prompt_mimic | llm | parser
 
-        
     def get_message(self, text_samples: List[str], person_to_mimic: str, theme: str):
         """
-        Generates a message given the provided username, examples, and theme 
+        Generates a message given the provided username, examples, and theme
         """
-        return self.mimicking_chain.invoke(input={"text_samples": text_samples, "person_to_mimic": person_to_mimic, "theme": theme})
+        return self.mimicking_chain.invoke(
+            input={
+                "text_samples": text_samples,
+                "person_to_mimic": person_to_mimic,
+                "theme": theme,
+            }
+        )
