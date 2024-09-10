@@ -11,7 +11,7 @@ Dumb can be called with the following command:
 
 For instance:
 
-![Example usage](./docs/img/dumb_bot.png)
+![Example usage](/docs/img/dumb_bot.png)
 
 
 ## Main Features
@@ -80,6 +80,11 @@ python dumb_telegram_bot/bot.py
 ### Remote Docker execution & deploy to production
 
 *WIP*
+
+
+# How it works
+
+[architecture](/docs/img/dumb_bot.png)
 
 
 ## Known limitations
